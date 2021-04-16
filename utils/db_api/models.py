@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column, TEXT, INTEGER, ForeignKey, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 # from data.config import DB_IP, DB_NAME, DB_PASS, DB_USER
 # engine = create_engine(f"postgresql://{DB_USER}:{DB_PASS}@{DB_IP}/{DB_NAME}")
@@ -8,7 +8,6 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine(f"sqlite:///db.db")
 pool = sessionmaker(bind=engine)
 Base = declarative_base()
-
 
 user_level = Table(
     'user_level', Base.metadata,
@@ -45,6 +44,9 @@ class User(Base):
     user_name: str = Column(TEXT, nullable=False, unique=True)  # TEXT
     
     banned: int = Column(INTEGER, nullable=False, default=0)  # BOOLEAN
+    
+    subjects = relationship('Subject', secondary=user_subject, backref='users')
+    levels = relationship('Level', secondary=user_level, backref='users')
 
 
 class Event(Base):
@@ -59,6 +61,9 @@ class Event(Base):
     time: str = Column(TEXT, nullable=False)  # TEXT
     
     url: str = Column(TEXT, nullable=False)  # TEXT
+
+    # subjects = relationship('Subject', secondary=event_subject, backref='events')
+    # levels = relationship('Level', secondary=event_level, backref='events')
 
 
 class Level(Base):
