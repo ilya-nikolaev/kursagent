@@ -18,10 +18,10 @@ async def ready(cq: types.CallbackQuery):
 async def sub_level(cq: types.CallbackQuery, db: Session, user: User, callback_data: dict):
     level = db.query(Level).filter(Level.id == callback_data["level_id"]).first()
     
-    await cq.answer(f'Вы успешно подписаны на уровень {level.name}!')
-    
     user.levels.append(level)
     db.commit()
+    
+    await cq.answer(f'Вы успешно подписаны на уровень {level.name}!')
     
     keyboard = await levels_keyboard(db, user)
     await cq.message.edit_reply_markup(keyboard)
@@ -31,10 +31,10 @@ async def sub_level(cq: types.CallbackQuery, db: Session, user: User, callback_d
 async def unsub_level(cq: types.CallbackQuery, db: Session, user: User, callback_data: dict):
     level = db.query(Level).filter(Level.id == callback_data["level_id"]).first()
     
-    await cq.answer(f'Вы успешно отписаны от уровня {level.name}!')
-    
     user.levels.remove(level)
     db.commit()
+    
+    await cq.answer(f'Вы успешно отписаны от уровня {level.name}!')
     
     keyboard = await levels_keyboard(db, user)
     await cq.message.edit_reply_markup(keyboard)
@@ -44,10 +44,10 @@ async def unsub_level(cq: types.CallbackQuery, db: Session, user: User, callback
 async def sub_subject(cq: types.CallbackQuery, db: Session, user: User, callback_data: dict):
     subject = db.query(Subject).filter(Subject.id == callback_data["subject_id"]).first()
     
-    await cq.answer(f'Вы успешно подписаны на предмет {subject.name}!')
-    
     user.subjects.append(subject)
     db.commit()
+
+    await cq.answer(f'Вы успешно подписаны на предмет {subject.name}!')
     
     keyboard = await subjects_keyboard(db, user)
     await cq.message.edit_reply_markup(keyboard)
@@ -57,10 +57,10 @@ async def sub_subject(cq: types.CallbackQuery, db: Session, user: User, callback
 async def unsub_subject(cq: types.CallbackQuery, db: Session, user: User, callback_data: dict):
     subject = db.query(Subject).filter(Subject.id == callback_data["subject_id"]).first()
     
-    await cq.answer(f'Вы успешно отписаны от предмета {subject.name}!')
-    
     user.subjects.remove(subject)
     db.commit()
+
+    await cq.answer(f'Вы успешно отписаны от предмета {subject.name}!')
     
     keyboard = await subjects_keyboard(db, user)
     await cq.message.edit_reply_markup(keyboard)
