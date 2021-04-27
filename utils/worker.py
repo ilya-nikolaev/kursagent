@@ -20,8 +20,15 @@ async def send_mailing(user_id: int):
     date = datetime.now().strftime('%d.%m.%Y')
     
     user_events: list[Event] = list()
-    for subject in user.subjects:
-        user_events.extend(db.query(Event).filter(Event.subjects.any(id=subject.id), Event.date == date).all())
+    for event in db.query(Event).all():
+        if event.date != date:
+            continue
+        if not any([level in event.levels for level in user.levels]):
+            continue
+        if not any([subject in event.subjects for subject in user.subjects]):
+            continue
+        
+        user_events.append(event)
     
     message = list()
     for user_event in user_events:
