@@ -6,7 +6,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
 from sqlalchemy.orm import Session
 
-from keyboards.default.menu import SET_LEVELS, SET_SUBJECTS, GET_HELP, SET_TIME, GET_TIMETABLE, menu_keyboard
+from keyboards.default.menu import SET_LEVELS, SET_SUBJECTS, SET_TIME, GET_TIMETABLE, menu_keyboard
 from keyboards.inline import levels_keyboard
 from keyboards.inline import subjects_keyboard
 from loader import dp

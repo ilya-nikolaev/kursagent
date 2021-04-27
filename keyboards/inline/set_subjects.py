@@ -27,6 +27,6 @@ async def subjects_keyboard(db: Session, user: User):
                 callback_data=subject_data.new(action='sub', subject_id=subject.id)
             ))
     
-    kb.add(InlineKeyboardButton(text='❎ Готово!', callback_data='ready'))
+    kb.add(InlineKeyboardButton(text='🔵 Готово! 🔵', callback_data='ready'))
     
     return kb

@@ -27,6 +27,6 @@ async def levels_keyboard(db: Session, user: User):
                 callback_data=level_data.new(action='sub', level_id=level.id)
             ))
     
-    kb.add(InlineKeyboardButton(text='❎ Готово!', callback_data='ready'))
+    kb.add(InlineKeyboardButton(text='🔵 Готово! 🔵', callback_data='ready'))
     
     return kb
