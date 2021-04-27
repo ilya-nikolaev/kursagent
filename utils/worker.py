@@ -52,10 +52,18 @@ async def send_mailing(user_id: int):
     keyboard = InlineKeyboardMarkup()
     keyboard.add(InlineKeyboardButton(text='Скрыть сообщение', callback_data='hide'))
     
-    if message:
-        await dp.bot.send_message(user_id, '\n'.join(message), disable_web_page_preview=True, reply_markup=keyboard)
-    else:
-        await dp.bot.send_message(user_id, "Вебинаров сегодня нет или их еще не добавили(", reply_markup=keyboard)
+    try:
+        
+        if message:
+            await dp.bot.send_message(user_id, '\n'.join(message), disable_web_page_preview=True, reply_markup=keyboard)
+        else:
+            await dp.bot.send_message(user_id, "Вебинаров сегодня нет или их еще не добавили(", reply_markup=keyboard)
+
+        logging.info(f'Отправлено сообщение пользователю {user_id}')
+        
+    except Exception as e:
+        logging.warning(f'Сообщение пользователю {user_id} не отправлено')
+        print(e)
 
 
 async def db_worker():
