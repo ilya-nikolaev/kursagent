@@ -19,7 +19,7 @@ async def send_mailing(user_id: int):
     
     date = datetime.now().strftime('%d.%m.%Y')
     
-    user_events = list()
+    user_events: list[Event] = list()
     for subject in user.subjects:
         user_events.extend(db.query(Event).filter(Event.subjects.any(id=subject.id), Event.date == date).all())
     
@@ -34,6 +34,9 @@ async def send_mailing(user_id: int):
             subtitle=user_event.subtitle,
             url=user_event.url
         )
+        
+        if user_event.featured:
+            base = '<b>Событие дня!</b>\n' + base
         
         message.append(base)
     

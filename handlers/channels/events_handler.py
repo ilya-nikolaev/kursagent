@@ -1,5 +1,6 @@
 import logging
 
+from sqlalchemy import false, true
 from sqlalchemy.orm import Session
 
 from loader import dp
@@ -25,7 +26,8 @@ async def get_event(message: types.Message, db: Session):
         subtitle=fields['subtitle'],
         date=fields['date'],
         time=fields['time'],
-        url=fields['url']
+        url=fields['url'],
+        featured=true() if fields['featured'] == 'yes' else false()
     )
     
     subjects = fields['event_type'].split(' ')

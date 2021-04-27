@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, TEXT, ForeignKey, create_engine, BIGINT, BOOLEAN
+from sqlalchemy import Table, Column, TEXT, ForeignKey, create_engine, BIGINT, BOOLEAN, false
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
@@ -39,10 +39,10 @@ class User(Base):
     
     user_id: int = Column(BIGINT, nullable=False, unique=True)  # BIGINT
     
-    user_name: str = Column(TEXT, nullable=False, unique=True)
+    user_name: str = Column(TEXT, unique=True, nullable=True)
     mailing_time: str = Column(TEXT, default='12:00')
     
-    banned: int = Column(BOOLEAN, nullable=False, default=0)  # BOOLEAN
+    banned: int = Column(BOOLEAN, nullable=False, default=false())  # BOOLEAN
     
     subjects = relationship('Subject', secondary=user_subject, backref='users')
     levels = relationship('Level', secondary=user_level, backref='users')
@@ -54,15 +54,17 @@ class User(Base):
 class Event(Base):
     __tablename__ = 'events'
     
-    id: int = Column(BIGINT, primary_key=True)  # BIGINT
+    id: int = Column(BIGINT, primary_key=True)
     
-    title: str = Column(TEXT, nullable=False)  # TEXT
-    subtitle: str = Column(TEXT, nullable=False)  # TEXT
+    title: str = Column(TEXT, nullable=False)
+    subtitle: str = Column(TEXT, nullable=False)
     
-    date: str = Column(TEXT, nullable=False)  # TEXT
-    time: str = Column(TEXT, nullable=False)  # TEXT
+    date: str = Column(TEXT, nullable=False)
+    time: str = Column(TEXT, nullable=False)
     
-    url: str = Column(TEXT, nullable=False)  # TEXT
+    url: str = Column(TEXT, nullable=False)
+    
+    featured: bool = Column(BOOLEAN, nullable=True)
 
     subjects = relationship('Subject', secondary=event_subject, backref='events')
     levels = relationship('Level', secondary=event_level, backref='events')
