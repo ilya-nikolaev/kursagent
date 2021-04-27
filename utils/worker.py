@@ -17,23 +17,25 @@ async def send_mailing(user_id: int):
     db = pool()
     user = db.query(User).filter(User.user_id == user_id).first()
     
+    date = datetime.now().strftime('%d.%m.%Y')
+    
     user_events = list()
     for subject in user.subjects:
-        user_events.extend(db.query(Event).filter(Event.subjects.any(id=subject.id)).all())
+        user_events.extend(db.query(Event).filter(Event.subjects.any(id=subject.id), Event.date == date).all())
     
     message = list()
     for user_event in user_events:
         subjects_string = ['#' + subject.name for subject in user_event.subjects]
-        message.append(
-            WEB_TEMPLATE.format(
-                title=user_event.title,
-                subjects=' '.join(subjects_string),
-                date=user_event.date,
-                time=user_event.time.split()[0],
-                subtitle=user_event.subtitle,
-                url=user_event.url
-            )
+        base = WEB_TEMPLATE.format(
+            title=user_event.title,
+            subjects=' '.join(subjects_string),
+            date=user_event.date,
+            time=user_event.time.split()[0],
+            subtitle=user_event.subtitle,
+            url=user_event.url
         )
+        
+        message.append(base)
     
     db.close()
 
