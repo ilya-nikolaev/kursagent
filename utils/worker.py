@@ -33,9 +33,11 @@ async def send_mailing(user_id: int):
     message = list()
     for user_event in user_events:
         subjects_string = ['#' + subject.name for subject in user_event.subjects]
+        levels_string = ['#' + level.name for level in user_event.levels]
         base = WEB_TEMPLATE.format(
             title=user_event.title,
             subjects=' '.join(subjects_string),
+            levels=' '.join(levels_string),
             date=user_event.date,
             time=user_event.time.split()[0],
             subtitle=user_event.subtitle,
@@ -43,7 +45,7 @@ async def send_mailing(user_id: int):
         )
         
         if user_event.featured:
-            base = '<b>Событие дня!</b>\n' + base
+            base = '⚡️ <b>Событие дня!</b> ⚡️\n' + base
         
         message.append(base)
     
@@ -57,7 +59,8 @@ async def send_mailing(user_id: int):
         if message:
             await dp.bot.send_message(user_id, '\n'.join(message), disable_web_page_preview=True, reply_markup=keyboard)
         else:
-            await dp.bot.send_message(user_id, "Вебинаров сегодня нет или их еще не добавили(", reply_markup=keyboard)
+            await dp.bot.send_message(user_id, "Вебинаров по вашим параметрам сегодня нет 😢. "
+                                               "Подождите или измените настройки", reply_markup=keyboard)
 
         logging.info(f'Отправлено сообщение пользователю {user_id}')
         

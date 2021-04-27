@@ -17,9 +17,11 @@ WEB_TEMPLATE = '\n'.join(
     [
         '🔹 <b>{title}</b>',
         '📘 {subjects}',
+        '📙 {levels}',
         '🗓 {date} 🕓 {time}МСК',
         '🔹 <i>{subtitle}</i>',
         '',
-        '🔗 {url}\n\n'
+        '🔗 {url}',
+        '➖➖➖➖➖➖➖➖➖➖\n\n'
     ]
 )

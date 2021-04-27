@@ -36,3 +36,9 @@ async def add_subject(message: types.Message, db: Session):
     msg = await message.answer('Принято!')
     await asyncio.sleep(5)
     await msg.delete()
+
+
+@dp.message_handler(IDFilter(ADMINS), commands=['shutdown'])
+async def shutdown(message: types.Message):
+    await message.answer('Бот сейчас отключится')
+    exit(0)

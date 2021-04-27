@@ -27,7 +27,7 @@ async def set_levels(message: types.Message, db: Session, user: User):
     
     try:
         keyboard = await levels_keyboard(db, user)
-        await message.answer('Выберите предметы из списка ниже', reply_markup=keyboard)
+        await message.answer('Выберите варианты из списка ниже', reply_markup=keyboard)
     except LookupError:
         message = await message.answer('Уровней пока что нет')
         await asyncio.sleep(5)
@@ -74,14 +74,15 @@ async def set_subjects(message: types.Message, state: FSMContext):
     )
     
     await state.set_state(SetTime.zone)
-    await message.answer('Укажите ваш часовой пояс относительно москвы', reply_markup=timezone_keyboard)
+    await message.answer('Укажите ваш часовой пояс <b>относительно Москвы</b>', reply_markup=timezone_keyboard)
 
 
 @dp.callback_query_handler(timezone_callback_data.filter(), state=SetTime.zone)
 async def set_zone(cq: types.CallbackQuery, state: FSMContext, callback_data: dict):
     await cq.answer()
 
-    time_variants = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00']
+    time_variants = ['07:00', '08:00', '09:00', '10:00', '11:00',
+                     '12:00', '13:00', '14:00', '15:00', '16:00']
 
     time_keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -93,7 +94,8 @@ async def set_zone(cq: types.CallbackQuery, state: FSMContext, callback_data: di
     )
     
     await state.update_data(zone=callback_data['delta'])
-    await cq.message.edit_text('Отлично, теперь выберите время в которое хотите получать уведомления в формате ЧЧ:00', reply_markup=time_keyboard)
+    await cq.message.edit_text('Отлично, теперь выберите время в которое хотите получать уведомления из списка ниже',
+                               reply_markup=time_keyboard)
     await state.set_state(SetTime.time)
 
 
