@@ -52,7 +52,8 @@ async def send_mailing(user_id: int):
     db.close()
 
     keyboard = InlineKeyboardMarkup()
-    keyboard.add(InlineKeyboardButton(text='Скрыть сообщение', callback_data='hide'))
+    keyboard.add(InlineKeyboardButton(text='📅 Календарь на все дни', url="https://kursagent.ru/webs/"))
+    keyboard.add(InlineKeyboardButton(text='✖️ Скрыть сообщение', callback_data='hide'))
     
     try:
         
