@@ -14,11 +14,12 @@ from utils.worker import db_worker
 
 
 async def job():
-    scheduler.add_job(db_worker, 'cron', minute=0)
+    scheduler.add_job(db_worker, 'cron', minute=25)
 
 
 async def on_startup(dispatcher):
     await notify(dispatcher, 'Бот запущен')
+    await db_worker()
     await asyncio.create_task(job())
 
 
