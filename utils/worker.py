@@ -84,11 +84,8 @@ async def db_worker():
     
     hour = datetime.now().hour
     for user in db.query(User).filter(User.banned == false()).all():
-        print(user.user_name)
         if user.mailing_time == f'{hour}:00':
             await send_mailing(user.user_id)
             await asyncio.sleep(.5)
-        else:
-            print(f'Время - {hour}:00, время пользователя - {user.mailing_time}')
     
     db.close()
