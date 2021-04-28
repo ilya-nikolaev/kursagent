@@ -41,10 +41,6 @@ async def add_subject(message: types.Message, db: Session):
 @dp.message_handler(IDFilter(ADMINS), commands=['shutdown'])
 async def shutdown(message: types.Message):
     await message.delete()
-    msg = await message.answer('Бот сейчас отключится')
-    await asyncio.sleep(1)
-    await msg.delete()
-    
     exit(0)
 
 
