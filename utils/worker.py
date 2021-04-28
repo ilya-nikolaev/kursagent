@@ -77,7 +77,7 @@ async def db_worker():
         delta = datetime.now().date() - datetime.strptime(event.date, "%d.%m.%Y").date()
         
         if delta.days > 1:
-            logging.info(f'Удалено событие {event.name}')
+            logging.info(f'Удалено событие {event.title}')
             db.delete(event)
             db.commit()
             continue
