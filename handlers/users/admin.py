@@ -40,5 +40,17 @@ async def add_subject(message: types.Message, db: Session):
 
 @dp.message_handler(IDFilter(ADMINS), commands=['shutdown'])
 async def shutdown(message: types.Message):
-    await message.answer('Бот сейчас отключится')
+    await message.delete()
+    msg = await message.answer('Бот сейчас отключится')
+    await asyncio.sleep(1)
+    await msg.delete()
+    
     exit(0)
+
+
+@dp.message_handler(IDFilter(ADMINS), commands=['my_user'])
+async def my_user(message: types.Message, user: User):
+    await message.delete()
+    msg = await message.answer(f'ID: {user.user_id}, username: {user.user_name}, mailing_time: {user.mailing_time}')
+    await asyncio.sleep(5)
+    await msg.delete()
