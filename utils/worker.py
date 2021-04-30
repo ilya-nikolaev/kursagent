@@ -30,6 +30,8 @@ async def send_mailing(user_id: int):
         
         user_events.append(event)
     
+    user_events.sort(key=lambda x: x.featured, reverse=True)
+    
     message = list()
     for user_event in user_events:
         subjects_string = ['#' + subject.name for subject in user_event.subjects]
