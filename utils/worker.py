@@ -1,14 +1,14 @@
 import asyncio
 import logging
 
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from sqlalchemy import false
+from sqlalchemy import false, true
 from sqlalchemy.orm import Session
 
 from loader import dp
 
 from .db_api import pool
 from .db_api.models import Event, User
+from keyboards.inline import get_mailing_keyboard
 from data.config import WEB_TEMPLATE
 from datetime import datetime
 
@@ -53,9 +53,7 @@ async def send_mailing(user_id: int):
     
     db.close()
 
-    keyboard = InlineKeyboardMarkup()
-    keyboard.add(InlineKeyboardButton(text='📅 Календарь на все дни', url="https://kursagent.ru/webs/"))
-    keyboard.add(InlineKeyboardButton(text='✖️ Скрыть сообщение', callback_data='hide'))
+    keyboard = get_mailing_keyboard(user)
     
     try:
         
@@ -86,7 +84,7 @@ async def db_worker():
             continue
     
     hour = datetime.now().hour
-    for user in db.query(User).filter(User.banned == false()).all():
+    for user in db.query(User).filter(User.banned == false(), User.subscribed == true()).all():
         if user.mailing_time == f'{hour}:00':
             await send_mailing(user.user_id)
             await asyncio.sleep(.5)

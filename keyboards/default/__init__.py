@@ -1,1 +1,1 @@
-from .menu import menu_keyboard
+from .menu import menu

@@ -1,5 +1,7 @@
+from sqlalchemy import false, true
 from sqlalchemy.orm import Session
 
+from keyboards.inline import get_mailing_keyboard
 from loader import dp
 from aiogram import types
 
@@ -64,3 +66,23 @@ async def unsub_subject(cq: types.CallbackQuery, db: Session, user: User, callba
     
     keyboard = await subjects_keyboard(db, user)
     await cq.message.edit_reply_markup(keyboard)
+
+
+@dp.callback_query_handler(text='cancel_mailing')
+async def cancel_mailing(cq: types.CallbackQuery, db: Session, user: User):
+    await cq.answer('Вы отписаны от рассылки!')
+    
+    user.subscribed = false()
+    db.commit()
+
+    await cq.message.edit_reply_markup(get_mailing_keyboard(user))
+
+
+@dp.callback_query_handler(text='return_mailing')
+async def cancel_mailing(cq: types.CallbackQuery, db: Session, user: User):
+    await cq.answer('Вы снова подписаны на рассылку!')
+    
+    user.subscribed = true()
+    db.commit()
+    
+    await cq.message.edit_reply_markup(get_mailing_keyboard(user))

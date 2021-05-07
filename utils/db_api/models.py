@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, TEXT, ForeignKey, create_engine, BIGINT, BOOLEAN, false
+from sqlalchemy import Table, Column, TEXT, ForeignKey, create_engine, BIGINT, BOOLEAN, false, true
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
@@ -42,7 +42,8 @@ class User(Base):
     user_name: str = Column(TEXT, unique=True, nullable=True)
     mailing_time: str = Column(TEXT, default='12:00')
     
-    banned: int = Column(BOOLEAN, nullable=False, default=false())  # BOOLEAN
+    banned: int = Column(BOOLEAN, nullable=False, default=false())
+    subscribed: int = Column(BOOLEAN, nullable=False, default=true())
     
     subjects = relationship('Subject', secondary=user_subject, backref='users')
     levels = relationship('Level', secondary=user_level, backref='users')

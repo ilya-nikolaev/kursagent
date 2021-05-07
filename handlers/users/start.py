@@ -3,12 +3,11 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 from sqlalchemy.orm import Session
 
 from loader import dp
-from utils.db_api.models import User
-from keyboards.default import menu_keyboard
+from keyboards.default import menu
 
 
 @dp.message_handler(CommandStart())
-async def bot_start(message: types.Message, db: Session, user: User):
+async def bot_start(message: types.Message, db: Session):
     await message.delete()
     
     HELLO_TEXT = '\n'.join([
@@ -20,13 +19,5 @@ async def bot_start(message: types.Message, db: Session, user: User):
         'Также в меню можно в любой момент посмотреть расписание ваших предметов на сегодня!\n',
         'Приятного использования бота! По всем вопросам, предложениям или замечаниям обращаться к @rnurnu'
     ])
-    
-    if user:
-        await message.answer(HELLO_TEXT, reply_markup=menu_keyboard)
-    else:
-        user = User(user_id=message.from_user.id, user_name=message.from_user.username)
         
-        db.add(user)
-        db.commit()
-        
-        await message.answer(HELLO_TEXT, reply_markup=menu_keyboard)
+    await message.answer(HELLO_TEXT, reply_markup=menu)
