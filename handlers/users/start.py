@@ -1,13 +1,12 @@
 from aiogram import types
 from aiogram.dispatcher.filters.builtin import CommandStart
-from sqlalchemy.orm import Session
 
 from loader import dp
 from keyboards.default import menu
 
 
 @dp.message_handler(CommandStart())
-async def bot_start(message: types.Message, db: Session):
+async def bot_start(message: types.Message):
     await message.delete()
     
     HELLO_TEXT = '\n'.join([
