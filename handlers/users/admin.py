@@ -83,7 +83,7 @@ async def broadcaster(message: types.Message, state: FSMContext):
     await msg.delete()
 
 
-@dp.message_handler(IDFilter(ADMINS), state='catch_message')
+@dp.message_handler(IDFilter(ADMINS), state='catch_message', content_types=types.ContentTypes.ANY)
 async def catch_message(message: types.Message, state: FSMContext):
     await message.delete()
     
