@@ -9,9 +9,9 @@ def get_mailing_keyboard(user: User):
     keyboard.add(InlineKeyboardButton(text='📅 Календарь на все дни', url="https://kursagent.ru/webs/"))
     
     if user.subscribed:
-        keyboard.add(InlineKeyboardButton(text='❌ Отказаться от рассылки', callback_data='cancel_mailing'))
+        keyboard.add(InlineKeyboardButton(text='❌ Не присылать расписание', callback_data='cancel_mailing'))
     else:
-        keyboard.add(InlineKeyboardButton(text='✅ Подписаться на рассылку', callback_data='return_mailing'))
+        keyboard.add(InlineKeyboardButton(text='✅ Подписаться на расписание', callback_data='return_mailing'))
 
     keyboard.add(InlineKeyboardButton(text='✖️ Скрыть сообщение', callback_data='hide'))
     
