@@ -63,14 +63,13 @@ async def hide(cq: types.CallbackQuery):
 async def set_subjects(message: types.Message, state: FSMContext):
     await message.delete()
     
-    deltas = ['-1', '0', '+1', '+2', '+4', '+5', '+6', '+7', '+8', '+9']
+    deltas = ['-1', '0', '+1', '+2', '+3', '+4', '+5', '+6', '+7', '+8', '+9']
     
     timezone_keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
-                InlineKeyboardButton(text=f'{deltas[n]}', callback_data=timezone_callback_data.new(delta=deltas[n])),
-                InlineKeyboardButton(text=f'{deltas[n + 1]}', callback_data=timezone_callback_data.new(delta=deltas[n + 1]))
-            ] for n in range(0, len(deltas), 2)
+                InlineKeyboardButton(text=f'{deltas[n]}', callback_data=timezone_callback_data.new(delta=deltas[n]))
+            ] for n in range(0, len(deltas))
         ]
     )
     
