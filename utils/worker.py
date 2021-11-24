@@ -13,7 +13,7 @@ from data.config import WEB_TEMPLATE
 from datetime import datetime
 
 
-async def send_mailing(user_id: int):
+async def send_mailing(user_id: int, individual: bool = False):
     db = pool()
     user = db.query(User).filter(User.user_id == user_id).first()
     
@@ -56,6 +56,10 @@ async def send_mailing(user_id: int):
     keyboard = get_mailing_keyboard(user)
     
     try:
+        if not message and individual:
+            await dp.bot.send_message("К сожалению, на сегодня ничего нет")
+            raise Exception
+
         await dp.bot.send_message(user_id, '\n'.join(message), disable_web_page_preview=True, reply_markup=keyboard)
         logging.info(f'Отправлено сообщение пользователю {user_id}')
     except Exception as e:

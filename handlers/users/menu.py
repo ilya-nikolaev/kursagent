@@ -51,7 +51,7 @@ async def set_subjects(message: types.Message, db: Session, user: User):
 @dp.message_handler(text=GET_TIMETABLE)
 async def get_timetable(message: types.Message):
     await message.delete()
-    await send_mailing(message.from_user.id)
+    await send_mailing(message.from_user.id, individual=True)
 
 
 @dp.callback_query_handler(text='hide')
