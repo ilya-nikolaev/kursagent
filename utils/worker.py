@@ -57,7 +57,7 @@ async def send_mailing(user_id: int, individual: bool = False):
     
     try:
         if not message and individual:
-            await dp.bot.send_message(user_id, "К сожалению, на сегодня ничего нет")
+            await dp.bot.send_message(user_id, "К сожалению, на сегодня ничего нет", reply_markup=get_mailing_keyboard)
             raise Exception
 
         await dp.bot.send_message(user_id, '\n'.join(message), disable_web_page_preview=True, reply_markup=keyboard)
