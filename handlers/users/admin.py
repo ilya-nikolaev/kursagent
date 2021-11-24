@@ -17,8 +17,18 @@ from utils.db_api.models import User, Level, Subject
 @dp.message_handler(IDFilter(ADMINS), commands=['users'])
 async def admin_menu(message: types.Message, db: Session):
     await message.delete()
+
+    s = 0
+    for user in db.query(User).all():
+        try:
+            await message.bot.send_chat_action(user.user_id, types.ChatActions.TYPING)
+            s += 1
+            await asyncio.sleep(.1)
+        except Exception as e:
+            logging.error(e)
     
-    msg = await message.answer(f'Количество пользователей бота: {db.query(User).count()}')
+    msg = await message.answer(f'Количество пользователей бота: {s}')
+
     await asyncio.sleep(5)
     await msg.delete()
 

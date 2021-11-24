@@ -56,15 +56,8 @@ async def send_mailing(user_id: int):
     keyboard = get_mailing_keyboard(user)
     
     try:
-        
-        if message:
-            await dp.bot.send_message(user_id, '\n'.join(message), disable_web_page_preview=True, reply_markup=keyboard)
-        else:
-            await dp.bot.send_message(user_id, "Вебинаров по вашим параметрам сегодня нет 😢. "
-                                               "Подождите или измените настройки", reply_markup=keyboard)
-
+        await dp.bot.send_message(user_id, '\n'.join(message), disable_web_page_preview=True, reply_markup=keyboard)
         logging.info(f'Отправлено сообщение пользователю {user_id}')
-        
     except Exception as e:
         logging.warning(f'Сообщение пользователю {user_id} не отправлено')
         print(e)
