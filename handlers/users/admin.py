@@ -20,16 +20,23 @@ async def admin_menu(message: types.Message, db: Session):
 
     m = await message.answer("Подсчет в процессе...")
 
-    s = 0
+    active = 0
+    banned = 0
+
     for user in db.query(User).all():
         try:
             await message.bot.send_chat_action(user.user_id, types.ChatActions.TYPING)
-            s += 1
-            await asyncio.sleep(.1)
+            active += 1
+            await asyncio.sleep(.05)
         except Exception as e:
+            banned += 1
             logging.error(e)
     
-    await m.edit_text(f'Количество пользователей бота: {s}')
+    await m.edit_text(
+        f'Пользователи, доступные для рассылки: {active}\n'
+        f'Неактивные пользователи: {banned}\n'
+        f'Всего регистрировавшихся пользователей: {db.query(User).count()}'
+    )
 
 
 @dp.message_handler(IDFilter(ADMINS), commands=['add_level'])
