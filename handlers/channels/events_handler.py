@@ -20,13 +20,18 @@ async def get_event(message: types.Message, db: Session):
         fields[key] = val
         
     logging.info(f'Принят пост "{fields["post_title"]}"')
+
+    if fields["url"].isspace():
+        url = fields["url_kursagent"]
+    else:
+        url = fields["url"]
     
     event = Event(
         title=fields['post_title'],
         subtitle=fields['subtitle'],
         date=fields['date'],
         time=fields['time'],
-        url=fields['url'],
+        url=url,
         featured=true() if fields['featured'] == 'yes' else false()
     )
     
