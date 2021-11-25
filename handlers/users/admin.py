@@ -18,6 +18,8 @@ from utils.db_api.models import User, Level, Subject
 async def admin_menu(message: types.Message, db: Session):
     await message.delete()
 
+    m = await message.answer("Подсчет в процессе...")
+
     s = 0
     for user in db.query(User).all():
         try:
@@ -27,10 +29,7 @@ async def admin_menu(message: types.Message, db: Session):
         except Exception as e:
             logging.error(e)
     
-    msg = await message.answer(f'Количество пользователей бота: {s}')
-
-    await asyncio.sleep(5)
-    await msg.delete()
+    await m.edit_text(f'Количество пользователей бота: {s}')
 
 
 @dp.message_handler(IDFilter(ADMINS), commands=['add_level'])
