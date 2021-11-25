@@ -21,7 +21,7 @@ async def get_event(message: types.Message, db: Session):
         
     logging.info(f'Принят пост "{fields["post_title"]}"')
 
-    if fields["url"].isspace():
+    if not fields["url"] or fields["url"].isspace():
         url = fields["url_kursagent"]
     else:
         url = fields["url"]
